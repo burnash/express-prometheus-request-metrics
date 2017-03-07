@@ -1,0 +1,28 @@
+{
+  "name": "express-prometheus-request-metrics",
+  "version": "0.0.1",
+  "description": "A simple express middleware that provides http request metrics",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burnash/express-prometheus-request-metrics.git"
+  },
+  "keywords": [
+    "prometheus",
+    "express",
+    "metrics"
+  ],
+  "author": "burnash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/burnash/express-prometheus-request-metrics/issues"
+  },
+  "homepage": "https://github.com/burnash/express-prometheus-request-metrics#readme",
+  "dependencies": {
+    "on-finished": "^2.3.0",
+    "on-headers": "^1.0.1"
+  }
+}
