@@ -2,28 +2,27 @@
 
 var onHeaders = require('on-headers');
 var onFinished = require('on-finished');
-var promClient = require('prom-client');
 
 var DEFAULT_METRICS_ENDPOINT = '/metrics';
-
-var totalRequests = new promClient.Counter('http_requests_total', 'Total requests.', ['method', 'handler', 'code']);
-var requestDuration = new promClient.Summary(
-  'http_request_duration_milliseconds', 'Request duration in milliseconds.', ['method', 'handler', 'code']
-);
-
-function observe(method, handler, code, duration) {
-  var labels = { method: method.toLowerCase(), handler: handler, code: code };
-
-  totalRequests.inc(labels);
-  requestDuration.observe(labels, duration);
-}
 
 function diffTime(start, end, digits) {
   return (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
 }
 
-function prometheus (options) {
+function prometheus (client, options) {
   var opts = options || {};
+
+  var totalRequests = new client.Counter('http_requests_total', 'Total requests.', ['method', 'handler', 'code']);
+  var requestDuration = new client.Summary(
+    'http_request_duration_milliseconds', 'Request duration in milliseconds.', ['method', 'handler', 'code']
+  );
+
+  function observe(method, handler, code, duration) {
+    var labels = { method: method.toLowerCase(), handler: handler, code: code };
+
+    totalRequests.inc(labels);
+    requestDuration.observe(labels, duration);
+  }
 
   // check if request / response should be skipped
   var skip = opts.skip || false;
