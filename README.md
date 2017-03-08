@@ -16,7 +16,7 @@ Other more feature-rich and refined libraries are:
 
 ```js
 
-var promClient = require("prom-client");
+var promClient = require('prom-client');
 var expressPrometheus = require('express-prometheus-request-metrics');
 
 app.configure(function () {
