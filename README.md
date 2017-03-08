@@ -1,4 +1,4 @@
-# express-prometheus-request-metrics
+# Express Prometheus Request Metrics
 
 This is a rudimentary express middleware that provides `http_request_duration_milliseconds`
 metric for Express apps.
@@ -10,3 +10,34 @@ Other more feature-rich and refined libraries are:
 
 * [jochen-schweizer/express-prom-bundle](https://github.com/jochen-schweizer/express-prom-bundle)
 * [roylines/node-epimetheus](https://github.com/roylines/node-epimetheus)
+
+
+## Usage
+
+```js
+
+var promClient = require("prom-client");
+var expressPrometheus = require('express-prometheus-request-metrics');
+
+app.configure(function () {
+
+  // ...
+
+  app.use(expressPrometheus(promClient));
+
+  app.use(app.router);
+
+});
+
+app.get('/metrics', function(req, res, next) {
+  res.end(promClient.register.metrics());
+});
+
+```
+
+
+## Install
+
+```
+npm install --save github:burnash/express-prometheus-request-metrics
+```
