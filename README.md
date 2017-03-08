@@ -25,8 +25,6 @@ app.configure(function () {
 
   app.use(expressPrometheus(promClient));
 
-  app.use(app.router);
-
 });
 
 app.get('/metrics', function(req, res, next) {
