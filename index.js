@@ -12,7 +12,6 @@ function diffTime(start, end) {
 function prometheus (client, options) {
   var opts = options || {};
 
-  var totalRequests = new client.Counter('http_requests_total', 'Total requests.', ['method', 'handler', 'code']);
   var requestDuration = new client.Summary(
     'http_request_duration_milliseconds', 'Request duration in milliseconds.', ['method', 'handler', 'code']
   );
@@ -20,7 +19,6 @@ function prometheus (client, options) {
   function observe(method, handler, code, duration) {
     var labels = { method: method.toLowerCase(), handler: handler, code: code };
 
-    totalRequests.inc(labels);
     requestDuration.observe(labels, duration);
   }
 
