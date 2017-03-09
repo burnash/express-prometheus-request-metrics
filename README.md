@@ -27,12 +27,44 @@ app.configure(function () {
 
 });
 
-app.get('/metrics', function(req, res, next) {
+app.get('/hello', function (req, res) {
+  res.send('Hello World!')
+});
+
+// This is a special endpoint you need to set up
+// to let Prometheus scrape the metrics:
+
+app.get('/metrics', function(req, res) {
   res.end(promClient.register.metrics());
 });
 
 ```
 
+Run your app and query for metrics:
+
+```sh
+
+curl http://localhost:3000/metrics
+
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1489022945
+
+# ... some default metrics
+
+# HELP http_request_duration_milliseconds Request duration in milliseconds.
+# TYPE http_request_duration_milliseconds summary
+http_request_duration_milliseconds{quantile="0.01",code="200",handler="/hello",method="get"} 114.4
+http_request_duration_milliseconds{quantile="0.05",code="200",handler="/hello",method="get"} 143.4
+http_request_duration_milliseconds{quantile="0.5",code="200",handler="/hello",method="get"} 174.75
+http_request_duration_milliseconds{quantile="0.9",code="200",handler="/hello",method="get"} 267.90
+http_request_duration_milliseconds{quantile="0.95",code="200",handler="/hello",method="get"} 298.79
+http_request_duration_milliseconds{quantile="0.99",code="200",handler="/hello",method="get"} 728.60
+http_request_duration_milliseconds{quantile="0.999",code="200",handler="/hello",method="get"} 763
+http_request_duration_milliseconds_sum{method="get",handler="/hello",code="200"} 11444
+http_request_duration_milliseconds_count{method="get",handler="/hello",code="200"} 58
+
+```
 
 ## Install
 
