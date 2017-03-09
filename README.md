@@ -46,11 +46,21 @@ Run your app and query for metrics:
 
 curl http://localhost:3000/metrics
 
+```
+
+You will get a text response. The `http_request_duration_milliseconds` metric is preceded by
+some [default metrics](https://github.com/siimon/prom-client#default-metrics) collected
+by [prom-client](https://github.com/siimon/prom-client).
+
+```sh
 # HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
 # TYPE process_start_time_seconds gauge
 process_start_time_seconds 1489022945
+# HELP process_open_fds Number of open file descriptors.
+# TYPE process_open_fds gauge
+process_open_fds 14
 
-# ... some default metrics
+# ...
 
 # HELP http_request_duration_milliseconds Request duration in milliseconds.
 # TYPE http_request_duration_milliseconds summary
