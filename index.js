@@ -5,7 +5,7 @@ var onFinished = require('on-finished');
 
 var DEFAULT_METRICS_ENDPOINT = '/metrics';
 
-function diffTime(start, end, digits) {
+function diffTime(start, end) {
   return (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
 }
 
@@ -42,7 +42,10 @@ function prometheus (client, options) {
       }
 
       var duration = (req._startAt && res._startAt) ? diffTime(req._startAt, res._startAt, 0) : null;
-      observe(req.method, req.route.path, res.statusCode, Math.round(duration));
+
+      if (req.route && duration !== null) {
+        observe(req.method, req.route.path, res.statusCode, Math.round(duration));
+      }
     };
 
     // record response start
